@@ -211,9 +211,14 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+/* Portfolio */
 #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
+}
+.filtresContainer {
+  display: flex;
+  justify-content: center;
 }
 .filters {
   display: flex;
