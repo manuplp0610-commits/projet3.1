@@ -1,4 +1,17 @@
+import { pageAdmin } from "./admin.js";
+
+// =========================LOCALSTORAGE PAGE ADMIN============================
+
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (isLoggedIn === "true") {
+    pageAdmin();
+  }
+});
+
 //==================AFFICHER PROJETS DYNAMIQUEMENT DANS L ACCUEIL=====================
+
 // Récupère les projets depuis l'API
 export async function recupererProjets() {
   try {
@@ -40,7 +53,7 @@ async function afficherProjetsIndex(filtre) {
 }
 afficherProjetsIndex(toutProjets);
 
-// ===================FILTRES=================================
+// ====================================FILTRES===================================================
 const btnFiltres = document.querySelectorAll(".filtre");
 
 // fontion Choisir filtre
@@ -79,3 +92,17 @@ function filtrerAffichageIndex() {
   });
 }
 filtrerAffichageIndex();
+
+// ======================CONNECTION / DECONNECTION================================
+
+const btnLogin = document.querySelector(".btnLogin");
+
+btnLogin.addEventListener("click", () => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (isLoggedIn === "true") {
+    localStorage.removeItem("isLoggedIn");
+    window.location.reload();
+  } else {
+    window.location.href = "./login.html";
+  }
+});

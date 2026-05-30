@@ -1,0 +1,177 @@
+/* page d acceuil admin */
+.banner {
+  background: black;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+i {
+  font-size: 14px;
+  color: white;
+}
+.btnModif {
+  font-family: "Work Sans";
+  font-size: 14px;
+  color: black;
+  margin-left: 30px;
+  font-weight: normal;
+}
+.btnModif:hover {
+  cursor: pointer;
+}
+
+.btnModif i {
+  font-size: 14px;
+  color: black;
+  font-weight: 600;
+}
+/* page "modifier" admin */
+.fondModif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+}
+
+/* fenetre de modification */
+.fenetreModif {
+  background: white;
+  width: 530px;
+  height: 620px;
+  border-radius: 10px;
+  padding: 50px 100px;
+  position: relative;
+  text-align: center;
+  margin-top: 100px;
+}
+.fermerModif {
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-weight: bold;
+}
+.galeriePhotos {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.galeriePhotosImg {
+  width: 90px;
+  height: 120px;
+  margin-bottom: 30px;
+}
+.titleGallery {
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.btnAjouterPhoto {
+  margin-top: 40px;
+  background: rgba(29, 97, 84, 1);
+  border-radius: 50px;
+  color: white;
+  padding: 10px 50px;
+  cursor: pointer;
+}
+.imgWrapper {
+  position: relative;
+  display: inline-block;
+}
+input,
+select {
+  margin-bottom: 20px;
+}
+.trashIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px;
+  cursor: pointer;
+}
+/* page ajouter photo */
+.btnRetour {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+}
+.btnRetour:hover {
+  cursor: pointer;
+}
+.formulairAjout {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  margin-bottom: -50px;
+}
+.formulairAjout button {
+  margin: 40px auto;
+  background: rgb(161, 161, 161);
+  border-radius: 50px;
+  color: white;
+  padding: 10px 50px;
+  cursor: pointer;
+  width: 220px;
+  transform: translateY(84px);
+}
+.zoneAjout {
+  background: rgba(232, 241, 246, 1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.logoPrev {
+  color: rgb(193, 193, 193);
+  font-size: 40px;
+  margin: 10px;
+}
+.formulairAjout label {
+  margin: 10px 0;
+}
+.btnajout {
+  background: rgba(203, 214, 220, 1);
+  border-radius: 50px;
+  width: 173px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(117, 117, 117);
+}
+#preview {
+  height: 170px;
+}
+.trashBis {
+  position: absolute;
+  right: auto;
+  transform: translateY(-70px);
+  font-size: 15px;
+  color: white;
+  display: none;
+}
+.trashBis:hover {
+  cursor: pointer;
+  color: brown;
+}
