@@ -131,6 +131,9 @@ a {
   text-decoration: none;
   color: black;
 }
+html {
+  position: relative;
+}
 /** end reset css**/
 * {
   scroll-behavior: smooth;

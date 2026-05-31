@@ -42,6 +42,4 @@ function portfolioTitle() {
   btnModif.innerHTML = `<i class="fa-regular fa-pen-to-square"></i> modifier`;
 
   title.appendChild(btnModif);
-
-  //   btnModif.addEventListener("click", openModal);
 }

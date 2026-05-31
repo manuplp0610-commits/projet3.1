@@ -1,4 +1,4 @@
-/* page d acceuil admin */
+/*====================================== INDEX ADMIN======================================== */
 .banner {
   background: black;
   padding: 10px;
@@ -29,107 +29,97 @@ i {
   color: black;
   font-weight: 600;
 }
-/* page "modifier" admin */
-.fondModif {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-}
+/* ==================================MODALE========================================*/
 
-/* fenetre de modification */
-.fenetreModif {
+.fondModale {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+}
+.modale {
+  width: 500px;
   background: white;
-  width: 530px;
-  height: 620px;
-  border-radius: 10px;
-  padding: 50px 100px;
-  position: relative;
+  position: absolute;
   text-align: center;
+  padding: 50px 100px 20px;
+  border-radius: 10px;
   margin-top: 100px;
 }
-.fermerModif {
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.modale h4 {
   font-weight: bold;
-}
-.galeriePhotos {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.galeriePhotosImg {
-  width: 90px;
-  height: 120px;
-  margin-bottom: 30px;
-}
-.titleGallery {
-  font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   font-size: 20px;
 }
-.btnAjouterPhoto {
-  margin-top: 40px;
-  background: rgba(29, 97, 84, 1);
-  border-radius: 50px;
-  color: white;
-  padding: 10px 50px;
-  cursor: pointer;
+.galleryModale {
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 5px;
+  margin: 0 auto;
 }
-.imgWrapper {
-  position: relative;
-  display: inline-block;
+.imgModale {
+  height: 112px;
+  width: 76px;
 }
-input,
-select {
-  margin-bottom: 20px;
-}
+
 .trashIcon {
   position: absolute;
-  top: 5px;
-  right: 5px;
   font-size: 14px;
   color: white;
   background: rgba(0, 0, 0, 0.6);
   padding: 5px;
   cursor: pointer;
 }
-/* page ajouter photo */
-.btnRetour {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-weight: bold;
-  background: transparent;
-  border: none;
-  font-size: 18px;
+.galleryModale figure {
+  display: flex;
+  justify-content: center;
 }
-.btnRetour:hover {
+hr {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(186, 186, 186);
+  margin-top: 60px;
+}
+.btnAjoutPhoto {
+  background: rgba(29, 97, 84, 1);
+  width: 237px;
+  height: 36px;
+  border-radius: 60px;
+  color: white;
+  margin: 40px;
+}
+.btnCloseform:hover,
+.btnCloseModale:hover,
+.btnAjoutPhoto:hover {
   cursor: pointer;
+}
+.btnCloseModale {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.btnCloseform {
+  position: absolute;
+  top: 10px;
+  left: 20px;
 }
 .formulairAjout {
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 100%;
-  height: 100%;
-  margin-bottom: -50px;
 }
 .formulairAjout button {
-  margin: 40px auto;
+  margin: 0 auto;
   background: rgb(161, 161, 161);
   border-radius: 50px;
   color: white;
   padding: 10px 50px;
   cursor: pointer;
   width: 220px;
-  transform: translateY(84px);
+  transform: translateY(64px);
 }
 .zoneAjout {
   background: rgba(232, 241, 246, 1);
