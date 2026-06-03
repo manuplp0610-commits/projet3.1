@@ -1,5 +1,17 @@
 import { pageAdmin } from "./admin.js";
 
+// set timeOut du bouton conact dans la page login
+window.addEventListener("load", () => {
+  if (window.location.hash === "#contact") {
+    setTimeout(() => {
+      const section = document.querySelector("#contact");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+        history.replaceState(null, null, " ");
+      }
+    }, 300);
+  }
+});
 // =========================LOCALSTORAGE PAGE ADMIN============================
 
 const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -13,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //==================AFFICHER PROJETS DYNAMIQUEMENT DANS L ACCUEIL=====================
 
 // Récupère les projets depuis l'API
-export async function recupererProjets() {
+async function recupererProjets() {
   try {
     const reponse = await fetch("http://localhost:5678/api/works");
 
@@ -53,7 +65,7 @@ async function afficherProjetsIndex(filtre) {
 }
 afficherProjetsIndex(toutProjets);
 
-// ====================================FILTRES===================================================
+// ====================================FILTRES========================================
 
 const btnFiltres = document.querySelectorAll(".filtre");
 
@@ -126,8 +138,16 @@ function fermerModale(btn) {
     return;
   });
 }
+// fermer modale au click exterieur
+const fondModale = document.querySelector(".fondModale");
 
-// =======afficher gallerie de la modale
+fondModale.addEventListener("click", (event) => {
+  if (event.target === fondModale) {
+    fondModale.style.display = "none";
+  }
+});
+
+// ============afficher gallerie de la modale
 
 async function afficherGalerieModale() {
   try {
@@ -151,7 +171,6 @@ async function afficherGalerieModale() {
 
     datas.forEach((data) => {
       // creation de projets dans la modale
-
       const figure = document.createElement("figure");
 
       const trashIcon = document.createElement("i");
@@ -160,6 +179,36 @@ async function afficherGalerieModale() {
       const img = document.createElement("img");
       img.className = "imgModale";
       img.src = data.imageUrl;
+
+      // =================evenement de suppression des projets
+
+      trashIcon.addEventListener("click", async () => {
+        const confirmation = confirm("Voulez-vous supprimer cette image ?");
+
+        if (!confirmation) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const reponse = await fetch(
+          `http://localhost:5678/api/works/${data.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (reponse.ok) {
+          figure.remove();
+          const nouveauxProjets = await recupererProjets();
+          afficherProjetsIndex(nouveauxProjets);
+        } else {
+          alert("Erreur lors de la suppression");
+        }
+      });
 
       figure.appendChild(trashIcon);
       figure.appendChild(img);
@@ -194,6 +243,7 @@ async function afficherGalerieModale() {
     modale.innerHTML = `<p>Erreur : ${error.message}</p>`;
   }
 }
+
 //=============================formulaire de la modale===================================
 
 function afficherFormulaireModale() {
@@ -231,8 +281,8 @@ function afficherFormulaireModale() {
       <input type="file" name="image" hidden required>
       </label>
       <p>jpg, png : 4mo max</p>
-      <i class="fa-solid fa-trash trashBis"></i>
-    </div>
+      
+    </div><i class="fa-solid fa-trash trashBis"></i>
   </div>
 
   <label>Titre</label>
@@ -250,7 +300,162 @@ function afficherFormulaireModale() {
   modale.appendChild(btnCloseform);
   modale.appendChild(form);
 
+  // revenir a la modale du formulaire
   btnCloseform.addEventListener("click", () => {
     afficherGalerieModale();
   });
+
+  // ==================formulaire d ajout deprojet========================
+
+  const formulaire = document.querySelector(".formulairAjout");
+
+  // Modif de la zone d'image quand l'image est chargée
+  const inputFile = form.querySelector('input[type="file"]');
+  const preview = form.querySelector("#preview");
+  const icon = form.querySelector("i");
+  const btnajout = form.querySelector(".btnajout");
+  const formatImage = form.querySelector(".zoneAjout p");
+  const zoneAjout = form.querySelector(".zoneAjout");
+  const trashBis = form.querySelector(".trashBis");
+  inputFile.addEventListener("change", () => {
+    const file = inputFile.files[0];
+
+    if (!file) return;
+
+    // Format autorisés
+    const typesAutorises = ["image/jpeg", "image/png"];
+    const tailleMax = 4 * 1024 * 1024;
+
+    // vérification type
+    if (!typesAutorises.includes(file.type)) {
+      alert("Seulement les fichiers JPG et PNG sont autorisés");
+
+      return;
+    }
+
+    // vérification taille
+    if (file.size > tailleMax) {
+      alert("L'image ne doit pas dépasser 4 Mo");
+      inputFile.value = "";
+      return;
+    }
+
+    // si tout est OK
+    modifContainerPreview();
+
+    // suprimer preview
+    trashBis.addEventListener("click", () => {
+      resetContainerPreview();
+      inputFile.value = "";
+    });
+
+    function modifContainerPreview() {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+      trashBis.style.display = "block";
+      icon.style.display = "none";
+      btnajout.style.display = "none";
+      formatImage.style.display = "none";
+      zoneAjout.style.padding = "0";
+    }
+    function resetContainerPreview() {
+      preview.src = "";
+      preview.style.display = "none";
+      trashBis.style.display = "none";
+      icon.style.display = "block";
+      btnajout.style.display = "flex";
+      formatImage.style.display = "block";
+      zoneAjout.style.padding = "15px";
+      btnValid.style.backgroundColor = "#A7A7A7";
+      btnValid.style.border = "none";
+    }
+  });
+
+  // ===== Vérification formulaire bien rempli=====
+  const btnValid = form.querySelector(".btnValid");
+  const titleInput = form.querySelector('input[name="title"]');
+  const categorySelect = form.querySelector('select[name="category"]');
+  const fileInput = form.querySelector('input[type="file"]');
+
+  const select = form.querySelector("select");
+  loadCategories(select);
+  function verifForm() {
+    const titleOk = titleInput.value.trim() !== "";
+    const categoryOk = categorySelect.value !== "";
+    const fileOk = fileInput.files.length > 0;
+
+    if (titleOk && categoryOk && fileOk) {
+      btnValid.disabled = false;
+      btnValid.style.backgroundColor = "#1D6154";
+      btnValid.style.color = "white";
+      btnValid.style.cursor = "pointer";
+    } else {
+      btnValid.disabled = true;
+      btnValid.style.backgroundColor = "#A7A7A7";
+      btnValid.style.color = "white";
+      btnValid.style.cursor = "not-allowed";
+    }
+  }
+
+  // écouter les changements
+  titleInput.addEventListener("input", verifForm);
+  categorySelect.addEventListener("change", verifForm);
+  fileInput.addEventListener("change", verifForm);
+
+  // ================= envoi du formulaire =================
+
+  formulaire.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("image", fileInput.files[0]);
+    formData.append("title", titleInput.value);
+    formData.append("category", categorySelect.value);
+
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'ajout du projet");
+      }
+
+      alert("Projet ajouté avec succès");
+
+      // recharge la galerie de la modale
+      afficherGalerieModale();
+
+      // recharge la galerie de la page d'accueil
+      const nouveauxProjets = await recupererProjets();
+      afficherProjetsIndex(nouveauxProjets);
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  });
+}
+// recuperer categorie de l api
+async function loadCategories(select) {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
+
+    categories.forEach((categorie) => {
+      const option = document.createElement("option");
+      option.value = categorie.id;
+      option.textContent = categorie.name;
+
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Erreur catégories :", error);
+  }
 }
