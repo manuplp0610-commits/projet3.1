@@ -430,10 +430,24 @@ function afficherFormulaireModale() {
 
       alert("Projet ajouté avec succès");
 
-      // recharge la galerie de la modale
-      afficherGalerieModale();
+      // Réinitialiser le formulaire
+      formulaire.reset();
 
-      // recharge la galerie de la page d'accueil
+      // Réinitialiser l'aperçu
+      preview.src = "";
+      preview.style.display = "none";
+      trashBis.style.display = "none";
+      icon.style.display = "block";
+      btnajout.style.display = "flex";
+      formatImage.style.display = "block";
+      zoneAjout.style.padding = "15px";
+
+      // Désactiver le bouton Valider
+      btnValid.disabled = true;
+      btnValid.style.backgroundColor = "#A7A7A7";
+      btnValid.style.cursor = "not-allowed";
+
+      // Mettre à jour la galerie de la page d'accueil
       const nouveauxProjets = await recupererProjets();
       afficherProjetsIndex(nouveauxProjets);
     } catch (error) {
